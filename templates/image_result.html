@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopShieldAI - Image Analysis</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            font-family: Arial, sans-serif;
+            background: #f0f4ff;
+            color: #202945;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px #00000012;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .result {
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 12px;
+            background: #edf3ff;
+            overflow-wrap: anywhere;
+        }
+
+        .product {
+            color: #087443;
+        }
+
+        .uncertain {
+            color: #a05a00;
+        }
+
+        .image-preview {
+            display: block;
+            max-width: 100%;
+            max-height: 350px;
+            margin: 20px auto;
+            border-radius: 12px;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 18px;
+            background: #4258d0;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>🛡️ ShopShieldAI</h1>
+    <h2>AI Shopping Product Analysis</h2>
+
+    <div class="result">
+        {% if result.status == "PRODUCT_DETECTED" %}
+            <h2 class="product">✅ Shopping Product Detected</h2>
+        {% elif result.status == "NOT_A_PRODUCT" %}
+            <h2>❌ Not a Shopping Product</h2>
+        {% elif result.status == "AI_ERROR" %}
+            <h2 class="uncertain">⚠️ AI Analysis Failed</h2>
+        {% else %}
+            <h2 class="uncertain">⚠️ Product Not Confirmed</h2>
+        {% endif %}
+
+        <p><strong>Uploaded file:</strong> {{ original_name }}</p>
+        <p><strong>Detected category:</strong> {{ result.category }}</p>
+        <p><strong>AI confidence estimate:</strong>
+            {{ result.confidence }}%
+        </p>
+        <p>{{ result.message }}</p>
+    </div>
+
+    <h2>Uploaded Image</h2>
+
+    <img
+        class="image-preview"
+        src="{{ result.image_url }}"
+        alt="Uploaded image"
+    >
+
+    <h2>Image Information</h2>
+
+    <p><strong>Format:</strong> {{ result.format }}</p>
+    <p><strong>Dimensions:</strong>
+        {{ result.width }} × {{ result.height }} pixels
+    </p>
+    <p><strong>File size:</strong> {{ result.size_kb }} KB</p>
+
+    <h2>Important Information</h2>
+
+    <ul>
+        {% for note in result.notes %}
+            <li>{{ note }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>
+        A recognized product is not automatically genuine, high-quality,
+        or worth buying. Check seller reviews, return policies, and prices
+        before purchasing.
+    </p>
+
+    <a class="button" href="{{ url_for('index') }}#image-checker">
+        Check Another Image
+    </a>
+
+</div>
+</body>
+</html>

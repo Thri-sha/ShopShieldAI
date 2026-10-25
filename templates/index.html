@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShopShieldAI | Shop smarter, shop safer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="{{ url_for('index') }}"><span class="brand-icon">S</span> ShopShield<span>AI</span></a>
+  <nav><a href="#website-checker">Website checker</a><a href="#image-checker">Image checker</a><a href="#safety">Safety tips</a></nav>
+</header>
+<main>
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">SMARTER ONLINE SHOPPING</p>
+      <h1>Pause before you pay.<br><span>Check before you shop.</span></h1>
+      <p class="hero-text">Check a shopping website URL for common warning signs or validate a product image file in a few clicks.</p>
+      <div class="hero-actions"><a class="button primary" href="#website-checker">Check a website</a><a class="button secondary" href="#image-checker">Check an image</a></div>
+      <p class="disclaimer-small">Helpful indicators — not a guarantee that a shop or product is genuine.</p>
+    </div>
+    <div class="hero-card"><div class="shield">✓</div><h3>Your extra shopping check</h3><p>Review warning signs, inspect the details, and make an informed decision before sharing payment information.</p><div class="mini-row"><span class="dot green"></span> URL pattern review</div><div class="mini-row"><span class="dot blue"></span> Image file validation</div></div>
+  </section>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<div class="flash-list">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+  {% endwith %}
+
+  <section class="section-heading"><p class="eyebrow">TWO SIMPLE TOOLS</p><h2>What would you like to check?</h2><p>Choose the checker that matches what you have.</p></section>
+  <section class="tool-grid">
+    <article class="tool-card" id="website-checker">
+      <div class="tool-icon purple">↗</div><p class="card-kicker">TOOL 01</p><h2>Shopping website checker</h2>
+      <p>Enter a shop URL to review common patterns that can sometimes appear in suspicious links.</p>
+      <form action="{{ url_for('check_website') }}" method="post">
+        <label for="url">Website URL</label>
+        <input id="url" name="url" type="text" placeholder="https://example-shop.com" required>
+        <button class="button primary full" type="submit">Analyze website <span>→</span></button>
+      </form>
+      <p class="field-note">Tip: HTTPS alone does not mean a website is trustworthy.</p>
+    </article>
+    <article class="tool-card" id="image-checker">
+      <div class="tool-icon orange">▧</div><p class="card-kicker">TOOL 02</p><h2>Product image checker</h2>
+      <p>Upload an image to validate its file type and view basic image details.</p>
+      <form action="{{ url_for('check_image') }}" method="post" enctype="multipart/form-data">
+        <label for="image">Choose an image</label>
+        <label class="upload-box" for="image"><span class="upload-symbol">＋</span><strong>Click to choose an image</strong><small>JPG, PNG, BMP, GIF, WEBP, TIFF and more</small><input id="image" name="image" type="file" accept="image/*,.bmp,.dib,.tif,.tiff,.ico,.jfif" required></label>
+        <button class="button primary full" type="submit">Validate image <span>→</span></button>
+      </form>
+      <p class="field-note">Maximum file size: 12 MB. The checker cannot prove product authenticity.</p>
+    </article>
+  </section>
+  <section class="safety-section" id="safety"><div><p class="eyebrow">SHOPPING SMART</p><h2>Three habits that help protect you</h2></div><div class="tip-grid"><article><span>01</span><h3>Verify the seller</h3><p>Look for independent reviews, real contact details, and a clear return policy.</p></article><article><span>02</span><h3>Use protected payments</h3><p>Avoid direct transfers to unknown sellers and never share an OTP or PIN.</p></article><article><span>03</span><h3>Compare product photos</h3><p>Reverse-search product images and compare them with trusted seller listings.</p></article></div></section>
+</main>
+<footer><a class="brand" href="#">ShopShield<span>AI</span></a><p>Student project for online shopping awareness · Results are indicative only.</p></footer>
+</body></html>
